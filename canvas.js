@@ -40,17 +40,23 @@ var c = canvas.getContext('2d');
 
 
 var x = 200;
+var dx = 4;
+var radius = 30;
 function animate() {
 	requestAnimationFrame(animate);
 	// Clearing the canvas, otherwise there would be lots of circles being drawn and 'draged' through the screen
 	c.clearRect(0, 0, innerWidth, innerHeight);
 	c.beginPath();
 	// c.arc (x, y, radius, )
-	c.arc(x, 200, 30, 0, Math.PI * 2, false);
+	c.arc(x, 200, radius, 0, Math.PI * 2, false);
 	c.strokeStyle = "blue";
 	c.stroke();
-
-	x += 1;
+	// Everytime the object hit the borders, it bounces back:
+	if (x + radius > innerWidth || x - radius < 0) {
+		dx = -dx;
+	}
+	// Velocity -> speed that something moves in a particular direction
+	x += dx;
 };
 
 animate();
