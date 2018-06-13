@@ -39,8 +39,8 @@ var c = canvas.getContext('2d');
 // };
 
 
-var x = 200;
-var y = 200;
+var x = Math.random() * innerWidth;
+var y = Math.random() * innerHeight;
 var dx = 4;
 var dy = 4;
 var radius = 30;
