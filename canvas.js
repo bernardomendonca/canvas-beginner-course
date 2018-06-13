@@ -38,31 +38,59 @@ var c = canvas.getContext('2d');
 // 	c.stroke();
 // };
 
+function Circle(x, y, dx, dy, radius){
+	this.x = x;
+	this.y = y;
+	this.dx = dx;
+	this.dy = dy;
+	this.radius = radius;
 
-var x = Math.random() * innerWidth;
-var y = Math.random() * innerHeight;
-var dx = (Math.random() - 0.5) * 10;
-var dy = (Math.random() - 0.5) * 10;
-var radius = 30;
+
+	this.draw = function () {
+		c.beginPath();
+		c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+		c.strokeStyle = "blue";
+		c.stroke();
+	}
+
+	this.update = function() {
+		// Everytime the object hit the borders, it bounces back:
+		if (this.x + this.radius > innerWidth || 
+			this.x - this.radius < 0) {
+			this.dx = -this.dx;
+		}
+		if (this.y + this.radius > innerHeight || 
+			this.y - this.radius < 0) {
+			this.dy = -this.dy;
+		}
+		// Velocity -> speed that something moves in a particular direction
+		this.x += this.dx;
+		this.y += this.dy;
+		// Calling the draw function:
+		this.draw();
+	}
+}
+
+
+var circleArray = [];
+
+for (var i = 0; i < 100; i++) {
+	var x = Math.random() * innerWidth;
+	var y = Math.random() * innerHeight;
+	var dx = (Math.random() - 0.5) * 3;
+	var dy = (Math.random() - 0.5) * 3;
+	var radius = 30;
+	circleArray.push(new Circle(x, y, dx, dy, radius));
+}
+
 function animate() {
 	requestAnimationFrame(animate);
 	// Clearing the canvas, otherwise there would be lots of circles being drawn and 'draged' through the screen
 	c.clearRect(0, 0, innerWidth, innerHeight);
-	c.beginPath();
-	// c.arc (x, y, radius, )
-	c.arc(x, y, radius, 0, Math.PI * 2, false);
-	c.strokeStyle = "blue";
-	c.stroke();
-	// Everytime the object hit the borders, it bounces back:
-	if (x + radius > innerWidth || x - radius < 0) {
-		dx = -dx;
+
+	for (var i = 0; i < circleArray.length; i++) {
+		circleArray[i].update();
 	}
-	if (y + radius > innerHeight || y - radius < 0) {
-		dy = -dy;
-	}
-	// Velocity -> speed that something moves in a particular direction
-	x += dx;
-	y += dy;
 };
 
 animate();
