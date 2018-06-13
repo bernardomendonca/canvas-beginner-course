@@ -38,6 +38,20 @@ var c = canvas.getContext('2d');
 // 	c.stroke();
 // };
 
+
+// Generating Random Color, in a gray(ish)scale
+function randomColor(){
+	//pick a "red" from 0 to 100
+	var r = Math.floor(Math.random() * 100);
+	//pick a "green" from 0 to 100
+	var g = Math.floor(Math.random() * 100);
+	//pick a "blue" from 0 to 100
+	var b = Math.floor(Math.random() * 100);
+	// Using weights to guarantee the gray(ish)scale
+	"rgb(r, g, b)"
+	return "rgb(" + (r)*0.3 + ", " + (g)*0.59 + ", " + (b)*0.11 + ")";
+}
+
 function Circle(x, y, dx, dy, radius){
 	this.x = x;
 	this.y = y;
@@ -45,13 +59,13 @@ function Circle(x, y, dx, dy, radius){
 	this.dy = dy;
 	this.radius = radius;
 
-
 	this.draw = function () {
 		c.beginPath();
 		c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-		c.strokeStyle = "blue";
+		c.fillStyle = Color;
+		c.fill();	
 		c.stroke();
-		c.fill();
+		c.strokeStyle = "steelBlue";
 	}
 
 	this.update = function() {
@@ -67,20 +81,21 @@ function Circle(x, y, dx, dy, radius){
 		// Velocity -> speed that something moves in a particular direction
 		this.x += this.dx;
 		this.y += this.dy;
-		// Calling the draw function:
+		// Calling the draw function:	
 		this.draw();
 	}
 }
-
 
 var circleArray = [];
 
 for (var i = 0; i < 100; i++) {
 	var radius = 30;
+	// To make sure that the circles wont be stuck in the borders:
 	var x = Math.random() * (innerWidth - radius * 2) + radius;
 	var y = Math.random() * (innerHeight - radius * 2) + radius;
 	var dx = (Math.random() - 0.5) * 3;
 	var dy = (Math.random() - 0.5) * 3;
+	var Color = randomColor();	
 	circleArray.push(new Circle(x, y, dx, dy, radius));
 }
 
